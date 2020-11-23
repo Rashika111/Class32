@@ -9,9 +9,10 @@ var backgroundImg,platform;
 var bird, slingshot;
 
 var gameState = "onSling";
+var score = 0 ;
 
 function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+getBgImage();
 }
 
 function setup(){
@@ -45,18 +46,23 @@ function setup(){
 }
 
 function draw(){
+    if(backgroundImg){
     background(backgroundImg);
+    }
+    text("My score is :   " + score ,1000,50);
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
     box2.display();
     ground.display();
     pig1.display();
+    score.display();
     log1.display();
 
     box3.display();
     box4.display();
     pig3.display();
+    score.display();
     log3.display();
 
     box5.display();
@@ -86,3 +92,20 @@ function keyPressed(){
        // slingshot.attach(bird.body);
     }
 }
+
+async function getBgImage(){
+var response = await fetch("http://worldtimeapi.org/api/timezone/Pacific/Wallis");
+var responseJSON = await response.json();
+var datetime = responseJSON.datetime;
+var hour = datetime.slice(11,13);
+
+if(hour>= 6 && hour <= 18 ){
+    backgroundImg = loadImage("sprites/bg.png");
+}
+else{
+    backgroundImg = loadImage("sprites/bg2.jpg");
+}
+
+}
+
+
